@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        /* Custom Flash message styles */
+        .alert-msg {
+            background-color: #f44336;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 18px;
+            text-align: center;
+            animation: bounce 1s ease-in-out infinite;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+        }
+
+        /* Animation for bouncing effect */
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+
+            25% {
+                transform: translateY(-10px);
+            }
+
+            50% {
+                transform: translateY(0);
+            }
+
+            75% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        /* Header styling */
+        .header-area {
+            background-color: #2b849b;
+        }
+
+        .header-area .main-menu ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        .header-area .main-menu ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        .header-area .main-menu ul li a {
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .header-area .main-menu ul li a:hover {
+            color: #ff5733;
+        }
+
+        /* Form Styling */
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #ff5733;
+            outline: none;
+        }
+
+        .btn-primary {
+            background-color: #ff5733;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff3b00;
+            transform: scale(1.05);
+        }
+
+        /* Breadcrumb Section */
+        .bradcam_area {
+            background-color: #f2f2f2;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .bradcam_area h3 {
+            font-size: 36px;
+            color: #333;
+        }
+
+        /* Prediction Section */
+        .contact-section {
+            padding-top: 80px;
+            padding-bottom: 80px;
+        }
+
+        .contact-section h3 {
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .contact-section form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .contact-section .form-group input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Start -->
+    <header>
+        <div class="header-area">
+            <div id="sticky-header" class="main-header-area">
+                <div class="container-fluid p-0">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="main-menu d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a href="{{url_for('home')}}">Home</a></li>
+                                        <li><a href="{{url_for('upload')}}">Upload</a></li>
+                                        <li><a href="{{url_for('viewdata')}}">View Data</a></li>
+                                        <li><a href="{{url_for('algo')}}">Algorithm</a></li>
+                                        <li><a class="active" style="color: yellow;" href="{{url_for('prediction')}}">Prediction</a></li>
+                                        <li><a href="{{url_for('index')}}">Logout</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Header End -->
+
+    <!-- Breadcrumb Section -->
+    <div class="bradcam_area">
+        <!-- <h3>RESULT EVALUATION</h3> -->
+    </div>
+
+    <!-- Prediction Section -->
+    <section class="contact-section">
+        <div class="container">
+            <center>
+                <h3>Prediction Section</h3>
+
+                {% if result %}
+                    <div class="alert alert-success mt-4" style="width: fit-content;">
+                        <strong>Prediction Result:</strong>
+                        <p>Predicted Class: <b>{{ result[0] }}</b></p>
+                        <p>Predicted CPU Burst Time (Ticks): <b>{{ result[1] }}</b></p>
+                        <p>Description: <b>{{ result[2] }}</b></p>
+                    </div>
+                {% endif %}
+            </center>
+
+            <form method="POST" action="{{ url_for('prediction') }}">
+                <div class="form-group">
+                    <input type="number" step="any" class="form-control" name="InputSize" placeholder="Input Size" required>
+                    <input type="number" step="any" class="form-control" name="ProgramSize" placeholder="Program Size" required>
+                    <input type="number" step="any" class="form-control" name="BSS" placeholder="BSS" required>
+                    <input type="number" step="any" class="form-control" name="RoData" placeholder="RoData" required>
+                    <input type="number" step="any" class="form-control" name="Text" placeholder="Text" required>
+
+                    <select class="form-control" name="InputType" required style="height: 50px;">
+                        <option value="">Choose Input Type</option>
+                        <option value="0">Constant</option>
+                        <option value="1">Random</option>
+                        <option value="2">Reverse Sorted</option>
+                        <option value="3">Sorted</option>
+                    </select><br>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- JS Scripts -->
+    <script src="/static/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+
+</html>

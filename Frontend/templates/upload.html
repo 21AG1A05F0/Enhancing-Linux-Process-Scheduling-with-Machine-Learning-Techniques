@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/static/css/magnific-popup.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/themify-icons.css">
+    <link rel="stylesheet" href="/static/css/nice-select.css">
+    <link rel="stylesheet" href="/static/css/flaticon.css">
+    <link rel="stylesheet" href="/static/css/gijgo.css">
+    <link rel="stylesheet" href="/static/css/animate.css">
+    <link rel="stylesheet" href="/static/css/slicknav.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <style>
+        /* Flash message styles */
+        .alert-msg {
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 18px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+        }
+
+        .alert-success {
+            background-color: #4CAF50; /* Green background */
+            color: white;
+        }
+
+        .alert-error {
+            background-color: #f44336; /* Red background */
+            color: white;
+        }
+
+        .alert-info {
+            background-color: #2196F3; /* Blue background */
+            color: white;
+        }
+
+        /* Hover effect on buttons */
+        .btn-primary {
+            background-color: #ff5733;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff3b00;
+            transform: scale(1.05);
+        }
+
+        /* Header Styling */
+        .header-area {
+            background-color: #2b849b;
+            padding: 15px 0;
+        }
+
+        .header-area .main-menu ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        .header-area .main-menu ul li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        .header-area .main-menu ul li a {
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .header-area .main-menu ul li a:hover {
+            color: #ff5733;
+        }
+
+        /* Form Styling */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group input {
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            padding: 12px;
+            width: 100%;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #ff5733;
+            outline: none;
+        }
+
+        .bradcam_area {
+            background-color: #f2f2f2;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .bradcam_area h3 {
+            font-size: 36px;
+            color: #333;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .header-area .main-menu ul li {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Start -->
+    <header>
+        <div class="header-area">
+            <div id="sticky-header" class="main-header-area">
+                <div class="container-fluid p-0">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="main-menu d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a href="{{url_for('home')}}">Home</a></li>
+                                        <li><a class="active" style="color: yellow;" href="{{url_for('upload')}}" class="active">Upload</a></li>
+                                        <li><a href="{{url_for('viewdata')}}">View Data</a></li>
+                                        <li><a href="{{url_for('algo')}}">Algorithm</a></li>
+                                        <li><a href="{{url_for('prediction')}}">Prediction</a></li>
+                                        <li><a href="{{url_for('index')}}">Logout</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Header End -->
+
+    <!-- Breadcrumb Section -->
+    <div class="bradcam_area">
+        <h3>UPLOAD DATASET</h3>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="container mt-5">
+        <h2 class="text-center">Upload CSV File</h2>
+
+        <!-- Display flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alert-msg alert-{{ messages[0][0] }}">
+                    {{ messages[0][1] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Select CSV file:</label>
+                <input type="file" class="form-control" name="file" id="file" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+    </div>
+
+    <!-- JS Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/static/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+
+</html>
